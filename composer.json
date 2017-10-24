@@ -1,0 +1,17 @@
+{
+  "name": "awinter/dave-ai",
+  "authors": [
+    {
+      "name": "Alex Winter",
+      "email": "Alex.Winter@efficioconsulting.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "DaveAI\\": "src/"
+    }
+  },
+  "require": {
+    "cilex/cilex": "^2.0"
+  }
+}
