@@ -33,7 +33,7 @@ function callAPI($method, $url, $data = false)
     return $result;
 }
 
-function maybe($input, $chance): string
+function maybe($input, $chance = 50): string
 {
     return random_int(1, 100) <= $chance
         ? $input
@@ -43,4 +43,15 @@ function maybe($input, $chance): string
 function pickRandom(array $options): string
 {
     return $options[array_rand($options)];
+}
+
+function findPhraseInString(array $phrases, string $string): bool
+{
+    foreach ($phrases as $phrase) {
+        if (strpos($string, $phrase) !== false) {
+            return true;
+        }
+    }
+
+    return false;
 }

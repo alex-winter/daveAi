@@ -12,15 +12,13 @@ class Weather
 
     public function getCityId(array $words):? int
     {
-        $cities = include __DIR__ . '/../../../bootstrap/cities.php';
+        $cities = include __DIR__ . '\cities.php';
 
         $filter = array_filter($cities, function ($city) use ($words) {
             return in_array($city->name, $words);
         });
 
-        $city = array_shift(
-            $filter
-        );
+        $city = array_shift($filter);
 
         return $city->id;
     }

@@ -2,13 +2,23 @@
 
 namespace DaveAI;
 
-use Cilex\Provider\Console\Command;
+use DaveAI\Personality\Dave;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Doctrine\DBAL\Migrations\Tools\Console\Command\AbstractCommand;
 
-class Say extends Command
+class Say extends AbstractCommand
 {
+    /** @var \DaveAI\Convosation\Say */
+    protected $convosation;
+
+    public function __construct(\DaveAI\Convosation\Say $say)
+    {
+        $this->convosation = $say;
+        parent::__construct('dave');
+    }
+
     protected function configure(): void
     {
         $this
@@ -18,8 +28,9 @@ class Say extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $dave = new \DaveAI\Convosation\Say($input->getOption('text'));
+        $this->convosation->giveInput($input->getOption('text'));
+        $this->convosation->loadPersonality(new Dave());
 
-        $output->writeln(implode(', ', $dave->response()));
+        $output->writeln(implode(', ', $this->convosation->response()));
     }
 }

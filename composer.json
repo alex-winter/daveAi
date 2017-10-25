@@ -12,6 +12,8 @@
     }
   },
   "require": {
-    "cilex/cilex": "^2.0"
+    "cilex/cilex": "^2.0",
+    "doctrine/dbal": "^2.6",
+    "doctrine/migrations": "^1.5"
   }
 }

@@ -22,6 +22,6 @@ $load = function ($root) use (&$load, &$app, &$container) {
 $load(__DIR__ . '/services');
 
 /** Package Tools */
-$app->command(new DaveAI\Say());
+$app->command($app[\DaveAI\Say::class]);
 
 return $app;

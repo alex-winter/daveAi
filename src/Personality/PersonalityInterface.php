@@ -5,11 +5,12 @@ namespace DaveAI\Personality;
 interface PersonalityInterface
 {
     // actions
-    public function getReactionToWeather(): string;
+    public function getReactionToWeather($weather): string;
 
     // response to text
-    public function confusedResponse(): string;
-    public function surprisedResponse(): string;
-    public function angryResponse(): string;
-    public function positiveResponse(): string;
+    public function confusedResponse(string $input): string;
+    public function surprisedResponse(string $input): string;
+    public function angryResponse(string $input): string;
+    public function positiveResponse(string $input): string;
+    public function greeting(string $input): string;
 }

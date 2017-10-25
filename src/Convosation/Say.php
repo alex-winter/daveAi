@@ -2,19 +2,30 @@
 
 namespace DaveAI\Convosation;
 
+use DaveAI\Action\Weather\Weather;
+use DaveAI\Personality\PersonalityInterface;
+
 class Say
 {
     protected $input;
 
-    protected $confusedResponses = [
-        'you what',
-        'what',
-        'uh',
-        'u wot',
-        'you havin me on',
-    ];
+    /** @var PersonalityInterface */
+    protected $personality;
 
-    public function __construct(string $input)
+    /** @var Weather */
+    protected $weather;
+
+    public function __construct(Weather $weather)
+    {
+        $this->weather = $weather;
+    }
+
+    public function loadPersonality(PersonalityInterface $personality): void
+    {
+        $this->personality = $personality;
+    }
+
+    public function giveInput(string $input): void
     {
         $this->input = $input;
     }
@@ -32,36 +43,36 @@ class Say
             'you',
         ];
 
-        $responseText = [];
-        $say          = $this->input;
-        $understand   = false;
+        $weather = [
+            'whats the weather like in',
+            'weather in',
+            'weather today in',
+            'weather '
+        ];
 
-        if (strpos(implode('', $greetings), $say) !== false) {
-            $responseText[] = $greetings[array_rand($greetings)];
+        $responseText     = [];
+        $say              = $this->input;
+        $understand       = false;
+        $matchesAGreeting = findPhraseInString($greetings, $say);
+        $askForWeather    = findPhraseInString($weather, $say);
+
+        if ($matchesAGreeting) {
+            $responseText[] = $this->personality->greeting($say);
             $understand     = true;
         }
-
-        if (strpos($say, 'strongbow') !== false) {
-            $responseText[] = 'strongbow?, yeah mate Ill have one';
-            $understand     = true;
-        }
-
-        $askForWeather = array_filter($actions['weather'], function (string $term) use ($say) {
-                return strpos($term, $say) !== false;
-            }) !== false;
 
         if ($askForWeather) {
             $words          = explode(' ', $say);
-            $cityId         = $this->getCityId($words);
-            $weather        = $this->callAPI('GET', 'http://samples.openweathermap.org/data/2.5/weather?id=' . $cityId . '&appid=b1b15e88fa797225412429c1c50c122a1');
+            $cityId         = $this->weather->getCityId($words);
+            $weather        = callAPI('GET', 'http://samples.openweathermap.org/data/2.5/weather?id=' . $cityId . '&appid=b1b15e88fa797225412429c1c50c122a1');
             $weather        = json_decode($weather);
-            $responseText[] = $this->getReactionToWeather($weather);
+            $responseText[] = $this->personality->getReactionToWeather($weather);
             $understand     = true;
         }
 
         if (!$understand) {
             $responseText = [
-                $this->confusedResponse($say)
+                $this->personality->confusedResponse($say)
             ];
         }
 
