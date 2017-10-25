@@ -33,10 +33,11 @@ function callAPI($method, $url, $data = false)
     return $result;
 }
 
-function maybe($input): string
+function maybe($input, $chance): string
 {
-    $chance = 50;
-    return random_int(1, 100) <= $chance ? $input : '';
+    return random_int(1, 100) <= $chance
+        ? $input
+        : '';
 }
 
 function pickRandom(array $options): string
