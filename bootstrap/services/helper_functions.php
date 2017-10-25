@@ -45,13 +45,17 @@ function pickRandom(array $options): string
     return $options[array_rand($options)];
 }
 
+/**
+ * Goes through array of accepted phrases and will return any that appear in string
+ *
+ * @param array  $phrases
+ * @param string $string
+ *
+ * @return bool
+ */
 function findPhraseInString(array $phrases, string $string): bool
 {
-    foreach ($phrases as $phrase) {
-        if (strpos($string, $phrase) !== false) {
-            return true;
-        }
-    }
-
-    return false;
+   return (bool)array_filter($phrases, function (string $phrases) use ($string) {
+       return strpos($string, $phrases) !== false;
+   });
 }
