@@ -55,7 +55,10 @@ function pickRandom(array $options): string
  */
 function findPhraseInString(array $phrases, string $string): bool
 {
-   return (bool)array_filter($phrases, function (string $phrases) use ($string) {
-       return strpos($string, $phrases) !== false;
-   });
+   return (bool)array_filter(
+       $phrases,
+       function (string $phrases) use ($string) {
+           return strpos($string, $phrases) !== false;
+       }
+   );
 }
