@@ -5,7 +5,7 @@
 1) clone the project
 
 ```bash
-$ git clone git@github.com:alex-winter/daveAi.git
+$ git clone git@github.com:alex-winter/daveAi-cli.git
 ```
 
 2) cs into the directory and install dependencies
