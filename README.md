@@ -15,8 +15,10 @@ $ composer install
 
 ### How to talk to the AI
 
+##### format:
 `./ai (personality) --text="text here"`
 
+##### examples:
 ```bash
 $ ./ai dave --text="hello dave, how are you?"
 $ ./ai dave --text="whats the weather like today in New York?"
