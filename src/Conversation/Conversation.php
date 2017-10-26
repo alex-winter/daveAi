@@ -1,12 +1,23 @@
 <?php
 
-namespace DaveAI\Convosation;
+namespace DaveAI\Conversation;
 
 use DaveAI\Action\Weather\Weather;
 use DaveAI\Personality\PersonalityInterface;
 
-class Say
+class Conversation
 {
+    const ACCEPTED_GREETINGS = [
+        'hi',
+        'hello',
+        'alright',
+        'how',
+        'are',
+        'doing',
+        'ya',
+        'you',
+    ];
+
     protected $input;
 
     /** @var PersonalityInterface */
@@ -30,19 +41,8 @@ class Say
         $this->input = $input;
     }
 
-    public function response(): array
+    public function getResponse(): string
     {
-        $greetings = [
-            'hi',
-            'hello',
-            'alright',
-            'how',
-            'are',
-            'doing',
-            'ya',
-            'you',
-        ];
-
         $weather = [
             'whats the weather like in',
             'weather in',
@@ -51,18 +51,18 @@ class Say
         ];
 
         $responseText     = [];
-        $say              = $this->input;
+        $input            = $this->input;
         $understand       = false;
-        $matchesAGreeting = findPhraseInString($greetings, $say);
-        $askForWeather    = findPhraseInString($weather, $say);
+        $matchesAGreeting = findPhraseInString(static::ACCEPTED_GREETINGS, $input);
+        $askForWeather    = findPhraseInString($weather, $input);
 
         if ($matchesAGreeting) {
-            $responseText[] = $this->personality->greeting($say);
+            $responseText[] = $this->personality->greeting($input);
             $understand     = true;
         }
 
         if ($askForWeather) {
-            $words          = explode(' ', $say);
+            $words          = explode(' ', $input);
             $cityId         = $this->weather->getCityId($words);
             $weather        = callAPI('GET', 'http://samples.openweathermap.org/data/2.5/weather?id=' . $cityId . '&appid=b1b15e88fa797225412429c1c50c122a1');
             $weather        = json_decode($weather);
@@ -72,10 +72,10 @@ class Say
 
         if (!$understand) {
             $responseText = [
-                $this->personality->confusedResponse($say)
+                $this->personality->confusedResponse($input)
             ];
         }
 
-        return $responseText;
+        return implode(', ', $responseText);
     }
 }
