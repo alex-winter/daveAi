@@ -1,4 +1,4 @@
-# Dave AI - Console Interface
+# Dave AI - Command Line Interface
 
 ### Set Up
 
