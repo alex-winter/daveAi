@@ -15,9 +15,11 @@ $ composer install
 
 ### How to talk to the AI
 
+`./ai (personality) --text="text here"`
+
 ```bash
-$ ./bootstrap/run dave --text="hello dave, how are you?"
-$ ./bootstrap/run dave --text="whats the weather like today in New York?"
+$ ./ai dave --text="hello dave, how are you?"
+$ ./ai dave --text="whats the weather like today in New York?"
 ```
 
 ### How to test

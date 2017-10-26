@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  cli:
+    build: .
+    working_dir: /app
+    entrypoint: ["/app/bootstrap/run"]
+    volumes:
+      - /app
