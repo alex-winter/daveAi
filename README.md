@@ -8,7 +8,7 @@
 $ git clone git@github.com:alex-winter/daveAi-cli.git
 ```
 
-2) cs into the directory and install dependencies
+2) cd into the directory and install dependencies
 ```bash 
 $ composer install
 ``` 
